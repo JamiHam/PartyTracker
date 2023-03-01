@@ -4,6 +4,8 @@ import {
 } from "react-router-dom"
 import UserPage from "./UserPage";
 import AdminPage from "./AdminPage";
+import Register from "./Register";
+import Login from "./Login";
 
 const AppRouter = () => {
     return (
@@ -15,6 +17,13 @@ const AppRouter = () => {
                 <Route path="/edit" element={
                     <AdminPage />
                 }/>
+                <Route path="/register" element={
+                    <Register />
+                }/>
+                <Route path="/login" element={
+                    <Login />
+                }/>
+
             </Routes>
         </Router>
     )

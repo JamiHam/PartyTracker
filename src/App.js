@@ -16,8 +16,8 @@ function App() {
               <Nav.Link href="/">Search events</Nav.Link>
               <Nav.Link href="/edit">Edit events</Nav.Link>
               <NavDropdown title="Account" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Register</NavDropdown.Item>
+                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                <NavDropdown.Item href="/register">Register</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

@@ -1,8 +1,8 @@
 module.exports = {
     credentials: {
-        host: "localhost",
-        user: "root",
-        password: "root",
-        database: "partyevents"
+        host: "10.114.34.5",
+        user: "jerkku",
+        password: "jerkku124",
+        database: "partytrackerTESTS"
     }
 }
