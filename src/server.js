@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.urlencoded({ extended:false }));
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://localhost:8080'}));
+app.use(cors({ origin: 'http://localhost:3000'}));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.urlencoded({ extended: false }));
