@@ -1,14 +1,22 @@
+require('dotenv').config()
 const express = require('express');
 const mysql = require('mysql');
 const util = require('util');
 const url = require('url');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const app = express();
+
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.urlencoded({ extended:false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:3000'}));
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const connection = require('./connection');
 const con = mysql.createConnection({
@@ -18,6 +26,68 @@ const con = mysql.createConnection({
     database: connection.credentials.database
 });
 const query = util.promisify(con.query).bind(con);
+
+
+app.post("/api/register", urlencodedParser, function (req, res) {
+    let jsonObj = req.body;
+
+    (async () => {
+        try {
+            const hashedPass = await bcrypt.hash(jsonObj.data.regPassword, 10)
+            let sql = "INSERT INTO projectTestUser (username, password)"
+                + " VALUES (?, ?)";
+
+            await query(sql, [jsonObj.data.regUser,hashedPass]);
+            res.status(200).send("POST successful " + req.body);
+
+        }
+
+        catch (err) {
+            console.log("Insertion into some (2) table was unsuccessful!" + err);
+            res.status(400).send("POST was not successful " + err);
+        }
+
+    })()
+
+});
+
+//Kirjautuu ja antaa käyttäjälle accesstokenin sähköpostin perusteella
+app.post("/api/login", urlencodedParser, function (req, res) {
+    let jsonObj = req.body;
+    const user = {username: jsonObj.data.logUser};
+
+    (async () => {
+        try {
+            let sql = "SELECT * FROM projectTestUser WHERE username = ?";
+            let results = await query(sql, [jsonObj.data.logUser]);
+            if (results.length > 0) {
+
+                const validPass = await bcrypt.compare(jsonObj.data.logPassword, results[0].password);
+                if(validPass) {
+                    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"});
+                    res.json(accessToken)
+                }
+                else {
+                    res.json('Wrongpass')
+                }
+            }
+            else {
+                res.status(404).json('User not found!')
+            }
+
+        }
+
+        catch (err) {
+            console.log("Something broke!" + err);
+            res.status(400).send("POST was not succesful " + err);
+        }
+
+    })()
+
+});
+
+
+
 
 /**
  * Get a party based on id.

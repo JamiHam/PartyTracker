@@ -11,8 +11,8 @@ const Navigation = () => {
                         <Nav.Link href="/">Search events</Nav.Link>
                         <Nav.Link href="/edit">Edit events</Nav.Link>
                         <NavDropdown title="Account" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Register</NavDropdown.Item>
+                            <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
+                            <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
