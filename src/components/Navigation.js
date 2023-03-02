@@ -22,7 +22,6 @@ const Navigation = () => {
 
         axios.post("http://localhost:8081/logged_in", {data}, )
             .then(res => {
-                console.log("response tuli");
                 if (res.status === 200) {
                     let user = localStorage.getItem("currentUser");
                     setLogged(user)
@@ -37,6 +36,11 @@ const Navigation = () => {
                 }
             })
 
+    }
+
+    function logout() {
+        localStorage.removeItem("myToken");
+        localStorage.removeItem("currentUser");
     }
 
 
@@ -56,7 +60,7 @@ const Navigation = () => {
                             <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
                         </NavDropdown> : null}
                         {showLoggedIn ? <NavDropdown title={ logged } id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={logout} href="/">Logout</NavDropdown.Item>
                         </NavDropdown> : null}
                     </Nav>
                 </Navbar.Collapse>
