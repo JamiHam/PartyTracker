@@ -1,7 +1,48 @@
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import { useState } from 'react'
+import axios from "axios";
+
+
 
 const Navigation = () => {
+
+    const [logged, setLogged] = useState('You are not currently logged in!');
+    const [showNotLoggedIn, setShowNotLoggedIn] = useState(false);
+    const [showLoggedIn, setShowLoggedIn] = useState(false);
+    checkLoginStatus();
+
+
+    function checkLoginStatus() {
+
+        let token = localStorage.getItem("myToken");
+
+        const data = {
+            token: token
+        };
+
+        axios.post("http://localhost:8081/logged_in", {data}, )
+            .then(res => {
+                console.log("response tuli");
+                if (res.status === 200) {
+                    let user = localStorage.getItem("currentUser");
+                    setLogged(user)
+                    setShowNotLoggedIn(false)
+                    setShowLoggedIn(true)
+                }
+
+                else {
+                    setLogged('You are not currently logged in!')
+                    setShowNotLoggedIn(true)
+                    setShowLoggedIn(false)
+                }
+            })
+
+    }
+
+
+
     return (
+
         <Navbar bg="light" expand="lg">
             <Container>
                 <Navbar.Brand href="/">PartyTracker</Navbar.Brand>
@@ -10,15 +51,21 @@ const Navigation = () => {
                     <Nav className="me-auto">
                         <Nav.Link href="/">Search events</Nav.Link>
                         <Nav.Link href="/edit">Edit events</Nav.Link>
-                        <NavDropdown title="Account" id="basic-nav-dropdown">
+                        {showNotLoggedIn ? <NavDropdown title="Account" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
                             <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
-                        </NavDropdown>
+                        </NavDropdown> : null}
+                        {showLoggedIn ? <NavDropdown title={ logged } id="basic-nav-dropdown">
+                            <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+                        </NavDropdown> : null}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+
+
     )
+
 }
 
 export default Navigation

@@ -32,7 +32,7 @@ const Register = () => {
 
             axios.post(`http://localhost:8081/api/register`, { data }, )
                 .then(res => {
-                    if(res.status == 200) {
+                    if(res.status === 200) {
                         // eslint-disable-next-line no-restricted-globals
                         location.replace("/Login")
                     }
@@ -80,7 +80,7 @@ const Register = () => {
                                                     required
                                                     id="regEmail"
                                                     type="email"
-                                                    placeholder="Enter username"
+                                                    placeholder="Enter email"
                                                 />
                                             </Form.Group>
 

@@ -96,6 +96,19 @@ app.post("/api/login", urlencodedParser, function (req, res) {
 });
 
 
+app.post("/logged_in", urlencodedParser, function (req, res) {
+
+    const data = JSON.stringify(req.body.data.token);
+    let token = data.replace(/"|\\/g, "");
+
+    if ( token == null) return res.sendStatus(401);
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) return res.sendStatus(204)
+            else return res.sendStatus(200)
+        })
+
+})
+
 //Middleware
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
