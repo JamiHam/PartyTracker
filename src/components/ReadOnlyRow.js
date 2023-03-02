@@ -1,3 +1,4 @@
+import {Button} from "react-bootstrap";
 
 const ReadOnlyRow = ({ party, handleEditClick }) => {
     return (
@@ -8,9 +9,9 @@ const ReadOnlyRow = ({ party, handleEditClick }) => {
             <td>{ party.address }</td>
             <td>{ party.city }</td>
             <td>
-                <button onClick={ (event) => handleEditClick(event, party) }>
+                <Button onClick={ (event) => handleEditClick(event, party) }>
                     Edit
-                </button>
+                </Button>
             </td>
         </tr>
     )

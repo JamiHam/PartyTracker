@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {Button, Form} from "react-bootstrap";
 
 const EditableRow = ({ party, handleSaveClick }) => {
     const [name, setName] = useState(party.name)
@@ -8,62 +9,62 @@ const EditableRow = ({ party, handleSaveClick }) => {
     const [city, setCity] = useState(party.city)
 
     return (
-        <tr>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    value={ name }
-                    onChange={ e => setName(e.target.value) }>
-                </input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    value={ date }
-                    onChange={ e => setDate(e.target.value) }>
-                </input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    value={ time }
-                    onChange={ e => setTime(e.target.value) }>
-                </input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    value={ address }
-                    onChange={ e => setAddress(e.target.value) }>
-                </input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    value={ city }
-                    onChange={ e => setCity(e.target.value) }>
-                </input>
-            </td>
-            <td>
-                <button onClick={ (event) => handleSaveClick(event,
-                    {
-                        id: party.id,
-                        name: name,
-                        date: date,
-                        time: time,
-                        address: address,
-                        city: city
-                    })
-                }>
-                    Save
-                </button>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <Form.Control
+                        type="text"
+                        required="required"
+                        value={ name }
+                        onChange={ e => setName(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Form.Control
+                        type="date"
+                        required="required"
+                        value={ date }
+                        onChange={ e => setDate(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Form.Control
+                        type="text"
+                        required="required"
+                        value={ time }
+                        onChange={ e => setTime(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Form.Control
+                        type="text"
+                        required="required"
+                        value={ address }
+                        onChange={ e => setAddress(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Form.Control
+                        type="text"
+                        required="required"
+                        value={ city }
+                        onChange={ e => setCity(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Button onClick={ (event) => handleSaveClick(event,
+                        {
+                            id: party.id,
+                            name: name,
+                            date: date,
+                            time: time,
+                            address: address,
+                            city: city
+                        })
+                    }>
+                        Save
+                    </Button>
+                </td>
+            </tr>
     )
 }
 
