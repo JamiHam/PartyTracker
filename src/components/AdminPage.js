@@ -1,11 +1,11 @@
 import EventForm from "./EventForm";
-import EventTable from "./EventTable";
+import EditableEventTable from "./EditableEventTable";
 
 const AdminPage = () => {
     return (
         <div>
             <EventForm />
-            <EventTable />
+            <EditableEventTable />
         </div>
     )
 }

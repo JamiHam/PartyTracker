@@ -2,22 +2,22 @@ import {Fragment, useEffect, useState} from "react";
 import axios from "axios";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
-import { format } from "date-fns";
+import {Table} from "react-bootstrap";
 
-const EventTable = () => {
-    const [party, setParty] = useState([])
+const EditableEventTable = () => {
     const [editing, setEditing] = useState(null)
+    const [parties, setParties] = useState([])
 
     useEffect(() => {
-        getAllParties()
+        getAllParties();
     }, [])
 
     const getAllParties = () => {
         axios
             .get('http://localhost:8081/api/parties')
             .then(response => {
-                console.log('promise fulfilled')
-                setParty(response.data)
+                console.log(response)
+                setParties(response.data)
             })
     }
 
@@ -28,7 +28,6 @@ const EventTable = () => {
 
     const handleSaveClick = (event, party) => {
         event.preventDefault()
-        console.log(party)
         axios
             .patch('http://localhost:8081/api/parties', party)
             .then(response => {
@@ -39,7 +38,7 @@ const EventTable = () => {
     }
 
     return (
-        <table>
+        <Table>
             <thead>
                 <tr>
                     <th>Event name</th>
@@ -52,7 +51,7 @@ const EventTable = () => {
             </thead>
 
             <tbody>
-                {party.map(party =>
+                {parties.map(party =>
                     <Fragment key={party.id}>
                         { editing === party.id ?
                             <EditableRow party={ party } handleSaveClick={ handleSaveClick }/> :
@@ -61,8 +60,8 @@ const EventTable = () => {
                     </Fragment>
                 )}
             </tbody>
-        </table>
+        </Table>
     )
 }
 
-export default EventTable
+export default EditableEventTable
