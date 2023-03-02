@@ -1,6 +1,59 @@
 import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
+import App from "../App";
+import axios from "axios";
 
 const Login = () => {
+
+    const handleSubmit = (event) => {
+        console.log("handle submit")
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        else {
+            event.preventDefault();
+            let logUsername = document.getElementById("loginUsername").value;
+            let logPass = document.getElementById("loginPassword").value;
+
+
+
+            const data = {
+                logUser: logUsername,
+                logPassword: logPass,
+            };
+
+            axios.post(`http://localhost:8081/api/login`, { data }, )
+                .then(res => {
+                    console.log(res);
+                    console.log("res data: "+res.data);
+
+                    if (res.status === 200) {
+
+                        if (res.data !== 'Wrongpass') {
+                            localStorage.removeItem("myToken");
+
+                            let tokenKey='myToken'
+                            localStorage.setItem(tokenKey,
+                                JSON.stringify(res.data));
+
+                            // eslint-disable-next-line no-restricted-globals
+                                location.replace("/")
+
+                        }
+
+                        else {
+                            console.log("tiedot olivat väärät kirjaudu uudelleen!")
+                        }
+
+                    }
+
+                })
+
+        }
+
+    }
 
 
     return (
@@ -16,12 +69,12 @@ const Login = () => {
                                     <h2 className="fw-bold mb-2 text-uppercase ">Login</h2>
                                     <p className=" mb-5">Please enter your login and password!</p>
                                     <div className="mb-3">
-                                        <Form>
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form onSubmit={handleSubmit}>
+                                            <Form.Group className="mb-3" controlId="formBasicUsername">
                                                 <Form.Label className="text-center">
-                                                    Email address
+                                                    Username
                                                 </Form.Label>
-                                                <Form.Control type="email" placeholder="Enter email"/>
+                                                <Form.Control id="loginUsername" type="text" placeholder="Enter username"/>
                                             </Form.Group>
 
                                             <Form.Group
@@ -29,7 +82,7 @@ const Login = () => {
                                                 controlId="formBasicPassword"
                                             >
                                                 <Form.Label>Password</Form.Label>
-                                                <Form.Control type="password" placeholder="Password"/>
+                                                <Form.Control id="loginPassword" type="password" placeholder="Password"/>
                                             </Form.Group>
                                             <Form.Group
                                                 className="mb-3"
