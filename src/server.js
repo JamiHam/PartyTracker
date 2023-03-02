@@ -33,12 +33,21 @@ app.post("/api/register", urlencodedParser, function (req, res) {
 
     (async () => {
         try {
-            const hashedPass = await bcrypt.hash(jsonObj.data.regPassword, 10)
-            let sql = "INSERT INTO projectTestUser (username, password)"
-                + " VALUES (?, ?)";
+            let accCheckSql = "SELECT * FROM users WHERE username = ? OR email = ?";
+            let results = await query(accCheckSql, [jsonObj.data.regUser, jsonObj.data.regEmail]);
 
-            await query(sql, [jsonObj.data.regUser,hashedPass]);
-            res.status(200).send("POST successful " + req.body);
+            if (results.length == 0) {
+                const hashedPass = await bcrypt.hash(jsonObj.data.regPassword, 10)
+                let sql = "INSERT INTO users (username, email, password, creation_time, role)"
+                    + " VALUES (?, ?, ?, ?, ?)";
+
+                await query(sql, [jsonObj.data.regUser, jsonObj.data.regEmail, hashedPass, jsonObj.data.regTime, jsonObj.data.role]);
+                res.status(200).send("POST successful " + req.body);
+
+            }
+            else {
+                throw "User already exists"
+            }
 
         }
 
@@ -58,7 +67,7 @@ app.post("/api/login", urlencodedParser, function (req, res) {
 
     (async () => {
         try {
-            let sql = "SELECT * FROM projectTestUser WHERE username = ?";
+            let sql = "SELECT * FROM users WHERE username = ?";
             let results = await query(sql, [jsonObj.data.logUser]);
             if (results.length > 0) {
 
