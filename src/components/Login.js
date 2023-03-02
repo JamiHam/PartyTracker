@@ -1,5 +1,4 @@
 import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
-import App from "../App";
 import axios from "axios";
 
 const Login = () => {
@@ -40,6 +39,10 @@ const Login = () => {
 
                             // eslint-disable-next-line no-restricted-globals
                                 location.replace("/")
+
+                            localStorage.removeItem("currentUser");
+                            let currentUser='currentUser'
+                            localStorage.setItem(currentUser, logUsername)
 
                         }
 
