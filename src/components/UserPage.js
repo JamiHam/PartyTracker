@@ -3,6 +3,7 @@ import Map from "./Map";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import SearchableEventTable from "./SearchableEventTable";
+import {Container} from "react-bootstrap";
 
 const UserPage = () => {
     const [parties, setParties] = useState([])
@@ -43,7 +44,7 @@ const UserPage = () => {
     }
 
     return (
-        <div>
+        <Container>
             <SearchEvent
                 getAllParties={ getAllParties }
                 getPartiesByDate={ getPartiesByDate }
@@ -54,7 +55,7 @@ const UserPage = () => {
                 getAllParties={ getAllParties }
             />
             <Map />
-        </div>
+        </Container>
     )
 }
 
