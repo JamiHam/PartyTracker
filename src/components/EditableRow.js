@@ -1,12 +1,14 @@
 import {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 
-const EditableRow = ({ party, handleSaveClick }) => {
+const EditableRow = ({ party, handleSaveClick, handleDeleteClick }) => {
     const [name, setName] = useState(party.name)
     const [date, setDate] = useState(party.date)
     const [time, setTime] = useState(party.time)
     const [address, setAddress] = useState(party.address)
     const [city, setCity] = useState(party.city)
+    const [x, setX] = useState(party.x)
+    const [y, setY] = useState(party.y)
 
     return (
             <tr>
@@ -51,6 +53,22 @@ const EditableRow = ({ party, handleSaveClick }) => {
                     />
                 </td>
                 <td>
+                    <Form.Control
+                        type="number"
+                        required="required"
+                        value={ x }
+                        onChange={ e => setX(e.target.value) }
+                    />
+                </td>
+                <td>
+                    <Form.Control
+                        type="number"
+                        required="required"
+                        value={ y }
+                        onChange={ e => setY(e.target.value) }
+                    />
+                </td>
+                <td>
                     <Button onClick={ (event) => handleSaveClick(event,
                         {
                             id: party.id,
@@ -58,11 +76,18 @@ const EditableRow = ({ party, handleSaveClick }) => {
                             date: date,
                             time: time,
                             address: address,
-                            city: city
+                            city: city,
+                            x: x,
+                            y: y
                         })
-                    }>
-                        Save
-                    </Button>
+                    }>Save</Button>
+                </td>
+                <td>
+                    <Button onClick={ (event) => handleDeleteClick(event,
+                        {
+                            id: party.id,
+                        })
+                    }>Delete</Button>
                 </td>
             </tr>
     )

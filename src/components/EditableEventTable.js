@@ -1,25 +1,11 @@
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useState} from "react";
 import axios from "axios";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import {Table} from "react-bootstrap";
 
-const EditableEventTable = () => {
+const EditableEventTable = ({ parties, getAllParties }) => {
     const [editing, setEditing] = useState(null)
-    const [parties, setParties] = useState([])
-
-    useEffect(() => {
-        getAllParties();
-    }, [])
-
-    const getAllParties = () => {
-        axios
-            .get('http://localhost:8081/api/parties')
-            .then(response => {
-                console.log(response)
-                setParties(response.data)
-            })
-    }
 
     const handleEditClick = (event, party) => {
         event.preventDefault()
@@ -37,6 +23,17 @@ const EditableEventTable = () => {
         setEditing(null)
     }
 
+    const handleDeleteClick = (event, party) => {
+        event.preventDefault()
+        axios
+            .delete('http://localhost:8081/api/parties', { data: party })
+            .then(response => {
+                console.log(response)
+                getAllParties()
+            })
+        setEditing(null)
+    }
+
     return (
         <Table>
             <thead>
@@ -46,6 +43,8 @@ const EditableEventTable = () => {
                     <th>Event time</th>
                     <th>Event address</th>
                     <th>Event city</th>
+                    <th>X-coordinate</th>
+                    <th>Y-coordinate</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -54,8 +53,15 @@ const EditableEventTable = () => {
                 {parties.map(party =>
                     <Fragment key={party.id}>
                         { editing === party.id ?
-                            <EditableRow party={ party } handleSaveClick={ handleSaveClick }/> :
-                            <ReadOnlyRow party={ party } handleEditClick={ handleEditClick }/>
+                            <EditableRow
+                                party={ party }
+                                handleSaveClick={ handleSaveClick }
+                                handleDeleteClick={ handleDeleteClick }
+                            /> :
+                            <ReadOnlyRow
+                                party={ party }
+                                handleEditClick={ handleEditClick }
+                            />
                         }
                     </Fragment>
                 )}

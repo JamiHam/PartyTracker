@@ -8,6 +8,8 @@ const ReadOnlyRow = ({ party, handleEditClick }) => {
             <td>{ party.time }</td>
             <td>{ party.address }</td>
             <td>{ party.city }</td>
+            <td>{ party.x }</td>
+            <td>{ party.y }</td>
             <td>
                 <Button onClick={ (event) => handleEditClick(event, party) }>
                     Edit
