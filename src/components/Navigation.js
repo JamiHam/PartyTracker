@@ -54,7 +54,7 @@ const Navigation = () => {
                             <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
                             <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
                         </NavDropdown> : null}
-                        {showLoggedIn ? <NavDropdown title={ logged } id="basic-nav-dropdown">
+                        {showLoggedIn ? <NavDropdown title={<span className="text-white-50">{logged}</span>} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={logout} href="/">Logout</NavDropdown.Item>
                         </NavDropdown> : null}
                     </Nav>
