@@ -1,7 +1,13 @@
-import {Table} from "react-bootstrap";
+import {Table, Button} from "react-bootstrap";
+import {markOnMap} from "./Map";
+
 
 const SearchableEventTable = ({ getPartyState }) => {
 
+    function showInMap(xCoord, yCoord) {
+        markOnMap(xCoord, yCoord)
+
+    }
     return (
         <Table>
             <thead>
@@ -23,11 +29,13 @@ const SearchableEventTable = ({ getPartyState }) => {
                     <td>{ party.time }</td>
                     <td>{ party.address }</td>
                     <td>{ party.city }</td>
+                    <Button onClick={() => showInMap(party.x, party.y)} variant="primary" size="sm" active>
+                        Show in map
+                    </Button>{' '}
                 </tr>
             )}
             </tbody>
         </Table>
     )
 }
-
 export default SearchableEventTable
