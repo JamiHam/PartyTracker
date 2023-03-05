@@ -1,6 +1,6 @@
 import EventForm from "./EventForm";
 import EditableEventTable from "./EditableEventTable";
-import {Container} from "react-bootstrap";
+import {Card, Container} from "react-bootstrap";
 import axios from "axios";
 import {useEffect, useState} from "react";
 
@@ -21,9 +21,14 @@ const AdminPage = () => {
     }
 
     return (
-        <Container>
-            <EventForm getAllParties={ getAllParties } />
-            <EditableEventTable parties={ parties } getAllParties={ getAllParties } />
+        <Container className="justify-content-center mt-3 mb-3">
+            <Card className="shadow">
+                <Card.Header as="h5">Add or edit events</Card.Header>
+                <Card.Body>
+                    <EventForm getAllParties={ getAllParties } />
+                    <EditableEventTable parties={ parties } getAllParties={ getAllParties } />
+                </Card.Body>
+            </Card>
         </Container>
     )
 }

@@ -60,8 +60,8 @@ function Map() {
 
     return (
         <div>
-            {map ? <DisplayPosition map={map} /> : null}
             {displayMap}
+            {map ? <DisplayPosition map={map} /> : null}
         </div>
     )
 

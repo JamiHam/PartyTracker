@@ -40,7 +40,7 @@ const Navigation = () => {
     }
 
     return (
-        <Navbar bg="dark" expand="lg">
+        <Navbar bg="dark" expand="lg" fixed="top">
             <Container>
                 <Navbar.Brand className="text-light" href="/">PartyTracker</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -52,19 +52,19 @@ const Navigation = () => {
                     <Nav className="ms-auto">
                         {showNotLoggedIn ?
                             <NavDropdown
-                                title={<span className="text-white-50">Account</span>}
+                                title="Account"
                                 id="basic-nav-dropdown"
                             >
-                                <NavDropdown.Item className="text-white-50" href="/Login">Login</NavDropdown.Item>
-                                <NavDropdown.Item className="text-white-50" href="/Register">Register</NavDropdown.Item>
+                                <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
+                                <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
                             </NavDropdown> : null
                         }
                         {showLoggedIn ?
                             <NavDropdown
-                                title={<span className="text-white-50">{logged}</span>}
+                                title={logged}
                                 id="basic-nav-dropdown"
                             >
-                                <NavDropdown.Item className="text-white-50" onClick={logout} href="/">Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout} href="/">Logout</NavDropdown.Item>
                             </NavDropdown> : null
                         }
                     </Nav>
