@@ -48,15 +48,25 @@ const Navigation = () => {
                     <Nav className="me-auto">
                         <Nav.Link className="text-white-50" href="/">Search events</Nav.Link>
                         <Nav.Link className="text-white-50" href="/edit">Edit events</Nav.Link>
-                        {showNotLoggedIn ? <NavDropdown title={<span
-                            className="text-white-50">Account</span>
-                        } id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
-                            <NavDropdown.Item href="/Register">Register</NavDropdown.Item>
-                        </NavDropdown> : null}
-                        {showLoggedIn ? <NavDropdown title={<span className="text-white-50">{logged}</span>} id="basic-nav-dropdown">
-                            <NavDropdown.Item onClick={logout} href="/">Logout</NavDropdown.Item>
-                        </NavDropdown> : null}
+                    </Nav>
+                    <Nav className="ms-auto">
+                        {showNotLoggedIn ?
+                            <NavDropdown
+                                title={<span className="text-white-50">Account</span>}
+                                id="basic-nav-dropdown"
+                            >
+                                <NavDropdown.Item className="text-white-50" href="/Login">Login</NavDropdown.Item>
+                                <NavDropdown.Item className="text-white-50" href="/Register">Register</NavDropdown.Item>
+                            </NavDropdown> : null
+                        }
+                        {showLoggedIn ?
+                            <NavDropdown
+                                title={<span className="text-white-50">{logged}</span>}
+                                id="basic-nav-dropdown"
+                            >
+                                <NavDropdown.Item className="text-white-50" onClick={logout} href="/">Logout</NavDropdown.Item>
+                            </NavDropdown> : null
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

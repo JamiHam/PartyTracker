@@ -151,7 +151,7 @@ const EventForm = ({ getAllParties }) => {
                 </Form.Group>
             </Row>
 
-            <Button className="mt-3" type="submit">Add event</Button>
+            <Button variant="outline-light" className="mt-3 custom-button" type="submit">Add event</Button>
         </Form>
     )
 }

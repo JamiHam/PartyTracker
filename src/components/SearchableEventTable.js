@@ -29,9 +29,11 @@ const SearchableEventTable = ({ getPartyState }) => {
                     <td>{ party.time }</td>
                     <td>{ party.address }</td>
                     <td>{ party.city }</td>
-                    <Button onClick={() => showInMap(party.x, party.y)} variant="primary" size="sm" active>
-                        Show in map
-                    </Button>{' '}
+                    <td>
+                        <Button onClick={() => showInMap(party.x, party.y)} variant="outline-light" className="custom-button" size="sm">
+                            Show in map
+                        </Button>{' '}
+                    </td>
                 </tr>
             )}
             </tbody>

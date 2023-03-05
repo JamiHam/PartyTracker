@@ -11,7 +11,7 @@ const ReadOnlyRow = ({ party, handleEditClick }) => {
             <td>{ party.x }</td>
             <td>{ party.y }</td>
             <td>
-                <Button onClick={ (event) => handleEditClick(event, party) }>
+                <Button variant="outline-light" className="custom-button" size="sm" onClick={ (event) => handleEditClick(event, party) }>
                     Edit
                 </Button>
             </td>
