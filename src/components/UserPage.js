@@ -3,7 +3,7 @@ import Map from "./Map";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import SearchableEventTable from "./SearchableEventTable";
-import {Container} from "react-bootstrap";
+import {Card, Container} from "react-bootstrap";
 
 const UserPage = () => {
     const [parties, setParties] = useState([])
@@ -44,17 +44,22 @@ const UserPage = () => {
     }
 
     return (
-        <Container>
-            <SearchEvent
-                getAllParties={ getAllParties }
-                getPartiesByDate={ getPartiesByDate }
-                getPartiesByCity={ getPartiesByCity }
-            />
-            <SearchableEventTable
-                getPartyState={ getPartyState }
-                getAllParties={ getAllParties }
-            />
-            <Map />
+        <Container className="justify-content-center mt-3 mb-3">
+            <Card className="shadow">
+                <Card.Header as="h5">Search for events</Card.Header>
+                <Card.Body>
+                    <SearchEvent
+                        getAllParties={ getAllParties }
+                        getPartiesByDate={ getPartiesByDate }
+                        getPartiesByCity={ getPartiesByCity }
+                    />
+                    <SearchableEventTable
+                        getPartyState={ getPartyState }
+                        getAllParties={ getAllParties }
+                    />
+                    <Map />
+                </Card.Body>
+            </Card>
         </Container>
     )
 }

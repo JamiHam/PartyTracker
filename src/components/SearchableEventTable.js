@@ -9,7 +9,7 @@ const SearchableEventTable = ({ getPartyState }) => {
 
     }
     return (
-        <Table>
+        <Table striped bordered hover className="mt-3">
             <thead>
             <tr>
                 <th>Event name</th>
