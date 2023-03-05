@@ -21,7 +21,7 @@ const SearchEvent = ({ getAllParties, getPartiesByDate, getPartiesByCity }) => {
 
             {criteria === 'all' && (
                 <Form.Group>
-                    <Button className="mt-3" onClick={ getAllParties }>Search</Button>
+                    <Button variant="outline-light" className="mt-3 custom-button" onClick={ getAllParties }>Search</Button>
                 </Form.Group>
             )}
 
@@ -46,7 +46,7 @@ const SearchEvent = ({ getAllParties, getPartiesByDate, getPartiesByCity }) => {
                         </Form.Group>
                     </Row>
                     <Form.Group>
-                        <Button className="mt-3" onClick={ e => getPartiesByDate(minDate, maxDate) }>Search</Button>
+                        <Button variant="outline-light" className="mt-3 custom-button" onClick={ e => getPartiesByDate(minDate, maxDate) }>Search</Button>
                     </Form.Group>
                 </div>
             )}
@@ -61,7 +61,7 @@ const SearchEvent = ({ getAllParties, getPartiesByDate, getPartiesByCity }) => {
                             onChange={ e => setCity(e.target.value) }
                         />
                     </Form.Group>
-                    <Button className="mt-3" onClick={ e => getPartiesByCity(city) }>Search</Button>
+                    <Button variant="outline-light" className="mt-3 custom-button" onClick={ e => getPartiesByCity(city) }>Search</Button>
                 </div>
             )}
         </Form>

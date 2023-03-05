@@ -69,7 +69,7 @@ const EditableRow = ({ party, handleSaveClick, handleDeleteClick }) => {
                     />
                 </td>
                 <td>
-                    <Button onClick={ (event) => handleSaveClick(event,
+                    <Button className="custom-button" size="sm" onClick={ (event) => handleSaveClick(event,
                         {
                             id: party.id,
                             name: name,
@@ -83,7 +83,7 @@ const EditableRow = ({ party, handleSaveClick, handleDeleteClick }) => {
                     }>Save</Button>
                 </td>
                 <td>
-                    <Button onClick={ (event) => handleDeleteClick(event,
+                    <Button className="custom-button" size="sm" onClick={ (event) => handleDeleteClick(event,
                         {
                             id: party.id,
                         })
