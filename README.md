@@ -80,7 +80,7 @@ Example: ```{"username": "jerkku", "password": testi123 }```
 
 ```POST: localhost:8081/logged_in```   
 Takes token as an data. Consistently checks that token is valid    
-Example: ```{"token": "ehQch4JMrXz.....",}```
+Example: ```{"token": "ehQch4JMrXz....."}```
 
 ```POST: localhost:8081/protectedRoute```
 Checks user's permissions
