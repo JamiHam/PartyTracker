@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# PartyTracker
+This is an app to see where all fun parties are. You can add, edit and delete events in your local database with this app.   
+If you put coordinates when adding an event, you can also see where event is located in a map.   
+App has couple different views:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Database
+App has a database called PARTYEVENTS, and two tables called PARTY and USERS. Columns are following:
+```shell
+CREATE TABLE party (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    date VARCHAR(50) NOT NULL,
+    time VARCHAR(5) NOT NULL,
+    address VARCHAR (50),
+    city VARCHAR (25),
+    x DOUBLE,
+    y DOUBLE,
+    PRIMARY KEY(id)
+);
 
-In the project directory, you can run:
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(150) NOT NULL,
+    creation_time TIMESTAMP NOT NULL,
+    role VARCHAR(25) NOT NULL,
+    PRIMARY KEY(id)
+);
+```
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# REST API
+The database can be accessed by making REST requests.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Retrieving events with GET methods
+All the following methods will return data in JSON format.
 
-### `npm test`
+```GET: localhost:8081/api/parties```   
+Retrieves all fields from every event.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```GET: localhost:8081/api/parties/date```   
+Retrieves all fields from events where the 'date'-field is within a specified range.   
+Example: ```localhost:8081/api/parties/date?min=2021-01-01&max=2022-12-30```
 
-### `npm run build`
+```GET: localhost:8081/api/parties/city```   
+Retrieves all fields from events where the 'city'-field matches the specified string.   
+Example: ```localhost:8081/api/parties/city?city=helsinki```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Adding events with POST method
+```POST: localhost:8081/api/parties```   
+The new event must be in JSON format, and it must include all fields in the PARTY-table except for id.   
+Example: ```{"name": "Tuska", "date": "2022-07-01", "time": "14:00", "address": "Suvilahti", "city": "Helsinki",
+"x": "60.166640739", "y": "24.943536799"}```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Modifying events with PATCH method
+```PATCH: localhost:8081/api/parties```   
+Takes a JSON that must include the id of the event being modified and all fields in the PARTY-table (even if only some
+of them will be changed).  
+Example: ```{"id": "1", "name": "Tuska", "date": "2022-07-01", "time": "14:00", "address": "Suvilahti",
+"city": "Helsinki", "x": "60.166640739", "y": "24.943536799"}```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Deleting events with DELETE method
+```DELETE: localhost:8081/api/parties```   
+Takes a JSON that includes the id of the event being deleted.   
+Example: ```{"id": "1"}```
 
-### `npm run eject`
+### Register and login authentication
+```POST: localhost:8081/api/register```   
+Takes a JSON that includes the user's username, email and password. 
+Checks if account already exists, if it doesn't exist, inserts it to the database.   
+Example: ```{"username": "jerkku", "email":jerkku@gmail.com, "password": testi123 }```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```POST: localhost:8081/api/login```   
+Takes a JSON that includes the user's username and password.
+Checks that the information is, if it is, proceeds in application.   
+Example: ```{"username": "jerkku", "password": testi123 }```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```POST: localhost:8081/logged_in```   
+Takes token as an data. Consistently checks that token is valid    
+Example: ```{"token": "ehQch4JMrXz.....",}```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```POST: localhost:8081/protectedRoute```
+Checks user's permissions
+Example: ```{"role": "ROLE.ADMIN",}```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Guide for setup
+First, make sure you have node.js and npm installed globally.
+Then proceed to next steps, which you can do in your code editors command line.
+You will need either mariaDB or MySQL database for this.
+### Setup for all dependencies
+Please enter following commands to your editors command line:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```shell
+npm init
+npm install
+npm install --save-dev nodemon
+npm install concurrently --save-dev
+```
+### Setup for database
+You will need to create a connection.js file into api folder. Insert following code to that file, with your own username and password.
 
-### Code Splitting
+```js
+module.exports = {
+    credentials: {
+        host: "localhost",
+        user: "YourUserName",
+        password: "YourPassWord",
+        database: "partyevents"
+    }
+}
+```
+In src/database.sql file you can find SQL queries that you can use to set up database and some base information.   
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Running the servers
+You can run client side and server side with following commands:
+```shell
+npm start
+nodemon src/server.js
+```
