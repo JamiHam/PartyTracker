@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const mysql = require('mysql');
 const util = require('util');
