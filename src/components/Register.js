@@ -1,4 +1,4 @@
-import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
+import {Button, Container, Card, Form} from "react-bootstrap";
 import axios from "axios";
 import { useState } from 'react'
 
@@ -58,76 +58,67 @@ const Register = () => {
 
 
     return (
+        <Container className="d-flex justify-content-center align-items-center mt-5 mb-5">
+            <Card className="shadow">
+                <Card.Header as="h5">Register</Card.Header>
+                <Card.Body>
+                    <div className="mb-3">
+                        <p style={{color: wronginfoColor}}>{wronginfo}</p>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="formBasicUsername">
+                                    <Form.Label className="text-center">
+                                        Username
+                                    </Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="regUsername"
+                                        type="text"
+                                        placeholder="Enter username"
+                                    />
+                                </Form.Group>
 
-        <div>
-            <Container>
-                <Row className="vh-100 d-flex justify-content-center align-items-center">
-                    <Col md={8} lg={6} xs={12}>
-                        <div className="border border-3 border-primary"></div>
-                        <Card className="shadow">
-                            <Card.Body>
-                                <div className="mb-3 mt-md-4">
-                                    <h2 className="fw-bold mb-2 text-uppercase ">Register</h2>
-                                    <p style={{color: wronginfoColor}} className=" mb-5">{wronginfo}</p>
-                                    <div className="mb-3">
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="mb-3" controlId="formBasicUsername">
-                                                <Form.Label className="text-center">
-                                                    Username
-                                                </Form.Label>
-                                                <Form.Control
-                                                    required
-                                                    id="regUsername"
-                                                    type="text"
-                                                    placeholder="Enter username"
-                                                />
-                                            </Form.Group>
-
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label className="text-center">
-                                                    Email
-                                                </Form.Label>
-                                                <Form.Control
-                                                    required
-                                                    id="regEmail"
-                                                    type="email"
-                                                    placeholder="Enter email"
-                                                />
-                                            </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label className="text-center">
+                                        Email
+                                    </Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="regEmail"
+                                        type="email"
+                                        placeholder="Enter email"
+                                    />
+                                </Form.Group>
 
 
-                                            <Form.Group
-                                                className="mb-3"
-                                                controlId="formBasicPassword"
-                                            >
-                                                <Form.Label>Password</Form.Label>
-                                                <Form.Control
-                                                    required
-                                                    id="regPassword"
-                                                    type="password"
-                                                    placeholder="Password"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group
-                                                className="mb-3"
-                                                controlId="formBasicCheckbox"
-                                            >
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicPassword"
+                                >
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="regPassword"
+                                        type="password"
+                                        placeholder="Password"
+                                    />
+                                </Form.Group>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicCheckbox"
+                                >
 
-                                            </Form.Group>
-                                            <div className="d-grid">
-                                                <Button variant="primary" type="submit">
-                                                    Login
-                                                </Button>
-                                            </div>
-                                        </Form>
-                                    </div>
+                                </Form.Group>
+                                <div className="d-grid">
+                                    <Button className="custom-button" variant="outline-light" type="submit">
+                                        Register
+                                    </Button>
                                 </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-        </div>);
+                            </Form>
+                        </div>
+                </Card.Body>
+            </Card>
+        </Container>
+    );
 }
 
 
