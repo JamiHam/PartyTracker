@@ -3,6 +3,7 @@ This is an app to see where all fun parties are. You can add, edit and delete ev
 If you put coordinates when adding an event, you can also see where event is located in a map.   
 App has couple different views:
 
+<img src="src/images/project.PNG">
 
 # Database
 App has a database called PARTYEVENTS, and two tables called PARTY and USERS. Columns are following:
