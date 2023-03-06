@@ -84,7 +84,7 @@ Example: ```{"token": "ehQch4JMrXz.....",}```
 
 ```POST: localhost:8081/protectedRoute```
 Checks user's permissions
-Example: ```{"role": "ROLE.ADMIN",}```
+Example: ```{"role": "ROLE.ADMIN"}```
 
 
 
