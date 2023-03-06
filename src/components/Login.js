@@ -1,7 +1,10 @@
 import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
 import axios from "axios";
+import { useState } from 'react'
 
 const Login = () => {
+    const [wronginfo, setWronginfo] = useState('Please enter your login and password!');
+    const [wronginfoColor, setWronginfoColor] = useState('black');
 
     const handleSubmit = (event) => {
         console.log("handle submit")
@@ -25,8 +28,6 @@ const Login = () => {
 
             axios.post(`http://localhost:8081/api/login`, { data }, )
                 .then(res => {
-                    console.log(res);
-                    console.log("res data: "+res.data);
 
                     if (res.status === 200) {
 
@@ -35,7 +36,7 @@ const Login = () => {
 
                             let tokenKey='myToken'
                             localStorage.setItem(tokenKey,
-                                JSON.stringify(res.data));
+                                JSON.stringify(res.data.accessToken));
 
                             // eslint-disable-next-line no-restricted-globals
                                 location.replace("/")
@@ -43,11 +44,13 @@ const Login = () => {
                             localStorage.removeItem("currentUser");
                             let currentUser='currentUser'
                             localStorage.setItem(currentUser, logUsername)
+                            localStorage.setItem('userRole', res.data.role)
 
                         }
 
                         else {
-                            console.log("tiedot olivat väärät kirjaudu uudelleen!")
+                            setWronginfoColor('red')
+                            setWronginfo('Your login details were wrong please try again!')
                         }
 
                     }
@@ -70,7 +73,7 @@ const Login = () => {
                             <Card.Body>
                                 <div className="mb-3 mt-md-4">
                                     <h2 className="fw-bold mb-2 text-uppercase ">Login</h2>
-                                    <p className=" mb-5">Please enter your login and password!</p>
+                                    <p style={{color: wronginfoColor}} className=" mb-5">{wronginfo}</p>
                                     <div className="mb-3">
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="mb-3" controlId="formBasicUsername">

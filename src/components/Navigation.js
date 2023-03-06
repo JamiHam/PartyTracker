@@ -6,6 +6,7 @@ const Navigation = () => {
     const [logged, setLogged] = useState('You are not currently logged in!');
     const [showNotLoggedIn, setShowNotLoggedIn] = useState(false);
     const [showLoggedIn, setShowLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false)
     checkLoginStatus();
 
     function checkLoginStatus() {
@@ -23,6 +24,14 @@ const Navigation = () => {
                     setLogged(user)
                     setShowNotLoggedIn(false)
                     setShowLoggedIn(true)
+                    if(localStorage.getItem("userRole") === 'ROLE.ADMIN') {
+                        setIsAdmin(true)
+                    }
+
+                    else {
+                        setIsAdmin(false)
+                    }
+
                 }
 
                 else {
@@ -37,6 +46,7 @@ const Navigation = () => {
     function logout() {
         localStorage.removeItem("myToken");
         localStorage.removeItem("currentUser");
+        localStorage.removeItem("userRole");
     }
 
     return (
@@ -47,7 +57,7 @@ const Navigation = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link className="text-white-50" href="/">Search events</Nav.Link>
-                        <Nav.Link className="text-white-50" href="/edit">Edit events</Nav.Link>
+                        { isAdmin ? <Nav.Link className="text-white-50" href="/edit">Edit events </Nav.Link> : null}
                     </Nav>
                     <Nav className="ms-auto">
                         {showNotLoggedIn ?

@@ -6,6 +6,7 @@ import UserPage from "./UserPage";
 import AdminPage from "./AdminPage";
 import Register from "./Register";
 import Login from "./Login";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const AppRouter = () => {
     return (
@@ -15,7 +16,9 @@ const AppRouter = () => {
                     <UserPage />
                 }/>
                 <Route path="/edit" element={
+                    <ProtectedRoute>
                     <AdminPage />
+                    </ProtectedRoute>
                 }/>
                 <Route path="/register" element={
                     <Register />

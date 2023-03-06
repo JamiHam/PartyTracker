@@ -44,9 +44,10 @@ app.post("/api/register", urlencodedParser, function (req, res) {
                 await query(sql, [jsonObj.data.regUser, jsonObj.data.regEmail, hashedPass, jsonObj.data.regTime, jsonObj.data.role]);
                 res.status(200).send("POST successful " + req.body);
 
+
             }
             else {
-                throw "User already exists"
+                res.json('accountExists')
             }
 
         }
@@ -73,15 +74,20 @@ app.post("/api/login", urlencodedParser, function (req, res) {
 
                 const validPass = await bcrypt.compare(jsonObj.data.logPassword, results[0].password);
                 if(validPass) {
+                    let role = results[0].role;
+
                     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"});
-                    res.json(accessToken)
+                    res.json({
+                        accessToken: accessToken,
+                        role: role
+                    })
                 }
                 else {
                     res.json('Wrongpass')
                 }
             }
             else {
-                res.status(404).json('User not found!')
+                res.json('Wrongpass')
             }
 
         }
@@ -109,20 +115,32 @@ app.post("/logged_in", urlencodedParser, function (req, res) {
 
 })
 
-//Middleware
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const data = authHeader && authHeader.split(' ')[1]
-    let token = data.replace(/['"]+/g, '');
+app.post("/protectedRoute", urlencodedParser, function (req, res) {
 
-    if ( token == null) return res.sendStatus(401);
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403)
-        req.user = user
-        next()
-    })
+    let jsonObj = req.body;
 
-}
+    (async () => {
+        try {
+            let accRoleCheckSql = "SELECT * FROM users WHERE username = ? AND role = ?";
+            let results = await query(accRoleCheckSql, [jsonObj.data.logUser, 'ROLE.ADMIN']);
+
+            if (results.length > 0) {
+                res.send(true);
+            }
+            else {
+                res.send(false);
+            }
+
+        }
+
+        catch (err) {
+            console.log("Something broke!" + err);
+            res.status(400).send("POST was not succesful " + err);
+        }
+
+    })()
+
+})
 
 
 /**
@@ -206,7 +224,7 @@ app.get('/api/parties/city', function(req, res) {
 /**
  * Add a new party to the database.
  */
-app.post('/api/parties', function(req,res) {
+app.post('/api/parties',  function(req,res) {
     let response = false;
     let sql = "INSERT INTO party (name, date, time, address, city, x, y)"
         + " VALUES (?, ?, ?, ?, ?, ?, ?)";
