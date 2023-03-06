@@ -1,7 +1,11 @@
 import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
 import axios from "axios";
+import { useState } from 'react'
 
 const Register = () => {
+    const [wronginfo, setWronginfo] = useState('Please enter your username, email and password!');
+    const [wronginfoColor, setWronginfoColor] = useState('black');
+
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -33,11 +37,18 @@ const Register = () => {
             axios.post(`http://localhost:8081/api/register`, { data }, )
                 .then(res => {
                     if(res.status === 200) {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.replace("/Login")
+                        if(res.data === 'accountExists') {
+                        //if account exists already
+                            setWronginfo('Account already exists!')
+                            setWronginfoColor('red')
+
+
+                        }
+                        else{
+                            // eslint-disable-next-line no-restricted-globals
+                            location.replace("/Login")
+                        }
                     }
-                    console.log(res);
-                    console.log(res.data);
                 })
 
         }
@@ -57,7 +68,7 @@ const Register = () => {
                             <Card.Body>
                                 <div className="mb-3 mt-md-4">
                                     <h2 className="fw-bold mb-2 text-uppercase ">Register</h2>
-                                    <p className=" mb-5">Please enter your username, email and password!</p>
+                                    <p style={{color: wronginfoColor}} className=" mb-5">{wronginfo}</p>
                                     <div className="mb-3">
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="mb-3" controlId="formBasicUsername">
