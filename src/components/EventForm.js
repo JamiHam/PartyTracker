@@ -3,6 +3,7 @@ import {useState} from "react";
 import axios from "axios";
 
 const EventForm = ({ getAllParties }) => {
+    const tokenObj = localStorage.getItem("myToken")
     const [validated, setValidated] = useState(false)
     const [name, setName] = useState('')
     const [date, setDate] = useState('')
@@ -24,7 +25,8 @@ const EventForm = ({ getAllParties }) => {
         }
 
         axios
-            .post('http://localhost:8081/api/parties', party)
+            .post('http://localhost:8081/api/parties', party, { headers: {Authorization:
+                        'Bearer: '+tokenObj}})
             .then(response => {
                 console.log(response)
                 getAllParties()

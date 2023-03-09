@@ -143,6 +143,21 @@ app.post("/protectedRoute", urlencodedParser, function (req, res) {
 
 })
 
+//Middleware
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const data = authHeader && authHeader.split(' ')[1]
+    let token = data.replace(/['"]+/g, '');
+
+    if ( token == null) return res.sendStatus(401);
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403)
+        req.user = user
+        next()
+    })
+
+}
+
 
 /**
  * Get a party based on id.
@@ -225,7 +240,7 @@ app.get('/api/parties/city', function(req, res) {
 /**
  * Add a new party to the database.
  */
-app.post('/api/parties',  function(req,res) {
+app.post('/api/parties', authenticateToken,  function(req,res) {
     let response = false;
     let sql = "INSERT INTO party (name, date, time, address, city, x, y)"
         + " VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -247,7 +262,7 @@ app.post('/api/parties',  function(req,res) {
 /**
  * Update existing party in the database.
  */
-app.patch('/api/parties', function(req, res) {
+app.patch('/api/parties', authenticateToken, function(req, res) {
     let response = false;
     let sql = "UPDATE party"
         + " SET name = ?, date = ?, time = ?, address = ?, city = ?, x = ?, y = ?"
@@ -270,7 +285,7 @@ app.patch('/api/parties', function(req, res) {
 /**
  * Delete a party with a given id
  */
-app.delete('/api/parties', function(req,res) {
+app.delete('/api/parties', authenticateToken, function(req,res) {
     let response = false;
     let sql = "DELETE FROM party"
         + " WHERE id = ?";
