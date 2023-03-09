@@ -5,6 +5,7 @@ import EditableRow from "./EditableRow";
 import {Table} from "react-bootstrap";
 
 const EditableEventTable = ({ parties, getAllParties }) => {
+    const tokenObj = localStorage.getItem("myToken")
     const [editing, setEditing] = useState(null)
 
     const handleEditClick = (event, party) => {
@@ -15,7 +16,7 @@ const EditableEventTable = ({ parties, getAllParties }) => {
     const handleSaveClick = (event, party) => {
         event.preventDefault()
         axios
-            .patch('http://localhost:8081/api/parties', party)
+            .patch('http://localhost:8081/api/parties', party, {headers: {Authorization: 'Bearer: '+tokenObj}})
             .then(response => {
                 console.log(response)
                 getAllParties()
@@ -26,7 +27,7 @@ const EditableEventTable = ({ parties, getAllParties }) => {
     const handleDeleteClick = (event, party) => {
         event.preventDefault()
         axios
-            .delete('http://localhost:8081/api/parties', { data: party })
+            .delete('http://localhost:8081/api/parties', { data: party, headers: {Authorization: 'Bearer: '+tokenObj} })
             .then(response => {
                 console.log(response)
                 getAllParties()
